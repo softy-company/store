@@ -4,37 +4,44 @@ import { RiDeleteBin6Fill } from 'react-icons/ri'
 
 const Baskets = () => {
 	const selected = useSelector(state => state.selected)
-  const quantity = useSelector(q => q.quantity)
-  
+	const quantity = useSelector(q => q.quantity)
+
 	// const [quantity, setQuantity] = useState()
 	const dispatch = useDispatch()
-	// console.log(selected)
-	let saveCounter = 0
-	useEffect(() => {
-		save()
-	}, [])
-	function save() {
-		saveCounter++
-		console.log(`save() called ${saveCounter} times`)
 
-		const data = JSON.parse(localStorage.getItem('store')) || []
-		let obj = {
-			value: 'aza',
-			id: Date.now()
+	const plusQuantity = id => {
+		dispatch({ type: 'PLUS', itemId: id, payload: 1 })
+		// dispatch({ type: 'COUNT', payload: 1 })
+		// console.log(id)
+		// console.log(payload)
+	}
+	const minusQuantity = id => {
+		dispatch({ type: 'MINUS', itemId: id, payload: 1 })
+		console.log(quantity[id])
+	}
+	const handleDelete = (productId, id) => {
+		if (quantity[id] === 0) {
+			dispatch({ type: 'DELETE_SELECTED', payload: { productId } })
+		} else {
+			dispatch({
+				type: 'UPDATE_QUANTITY',
+				payload: { id, quantity: quantity[id] - 1 }
+			})
 		}
-		data.push(obj)
-		localStorage.setItem('store', JSON.stringify(data))
+		// console.log(id)
+		// console.log(quantity[]);
 	}
+	// console.log();
 
-	const handleDelete = productId => {
-		dispatch({ type: 'DELETE_SELECTED', payload: { productId } })
-	}
+	// console.log(quantity)
+	// console.log(selected)
 
 	return (
 		<div className=''>
 			<div
-				className='relative overflow-x-auto'
+				className='relative overflow-x-auto '
 				style={{
+					transition: '.6s',
 					display: selected.length === 0 ? 'none' : 'block'
 				}}
 			>
@@ -75,11 +82,32 @@ const Baskets = () => {
 									/>
 								</th>
 								<td className='px-6 py-4 '>{el.title}</td>
-								<td className='px-6 py-4'>${el.price}</td>
-								<td className='px-7 py-4'>{quantity[el.id] || 0}</td>
+								<td className='px-6 py-4'>${el.price * quantity[el.id]}</td>
+								<div className='flex items-center ml-3 mt-16  '>
+									<button
+										onClick={() => {
+											plusQuantity(el.id)
+										}}
+										type='button'
+										class='text-white bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800'
+									>
+										+
+									</button>
+									<td className='px-7 py-4 '>{quantity[el.id] || 0}</td>
+									<button
+										onClick={() => {
+											minusQuantity(el.id)
+										}}
+										type='button'
+										class='text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900'
+									>
+										-
+									</button>
+								</div>
+
 								<td className='px-6 py-4'>
 									<button
-										onClick={() => handleDelete(idx)}
+										onClick={() => handleDelete(idx, el.id)}
 										type='button'
 										className='focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-3 py-2  dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900'
 									>

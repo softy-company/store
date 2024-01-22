@@ -1,7 +1,20 @@
 import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link, NavLink } from 'react-router-dom'
+import { CiLight } from 'react-icons/ci'
 
 const Header = () => {
+	const { selected } = useSelector(s => s)
+	const { favorite } = useSelector(f => f)
+	const { theme } = useSelector(t => t)
+
+	const dispatch = useDispatch()
+
+	const darknode = () => {
+		dispatch({ type: 'THEME', payload: !theme })
+	}
+	// console.log(theme)
+
 	return (
 		<div>
 			<nav className='bg-white border-gray-200 dark:bg-gray-900'>
@@ -14,8 +27,11 @@ const Header = () => {
 							src='https://flowbite.com/docs/images/logo.svg'
 							className='h-8'
 							alt='Flowbite Logo'
+							style={{
+								color: 'white'
+							}}
 						/>
-						<span className='self-center text-2xl font-semibold whitespace-nowrap dark:text-white'>
+						<span className='self-center text-2xl font-semibold whitespace-nowrap dark:text-white '>
 							Flowbite
 						</span>
 					</a>
@@ -44,12 +60,50 @@ const Header = () => {
 						</svg>
 					</button>
 
-					<div className='header hidden w-full md:block md:w-auto' id='navbar-default'>
+					<div
+						className='header hidden w-full md:block md:w-auto'
+						id='navbar-default'
+					>
 						<NavLink to={'/home'}>Home</NavLink>
 						<NavLink to={'/product'}>Product</NavLink>
-						<NavLink to={'/favorite'}>Favorite</NavLink>
-						<NavLink to={'/bascets'}>Bascets</NavLink>
+						<NavLink to={'/favorite'}>
+							Favorite
+							{favorite.length === 0 ? null : (
+								<h1
+									style={{
+										position: 'absolute',
+										right: '355px',
+										top: '8px'
+									}}
+									className='rounded-full flex items-center justify-center h-6 w-6 bg-red-500 '
+								>
+									{favorite.length}
+								</h1>
+							)}
+						</NavLink>
+						<NavLink to={'/bascets'}>
+							Bascet
+							{selected.length === 0 ? null : (
+								<h1
+									style={{
+										position: 'absolute',
+										right: '256px',
+										top: '8px'
+									}}
+									className='rounded-full flex items-center justify-center h-6 w-6 bg-red-500 '
+								>
+									{selected.length}
+								</h1>
+							)}
+						</NavLink>
 					</div>
+					<button
+						onClick={darknode}
+						className='text-white text-2xl '
+						type='button'
+					>
+						<CiLight />
+					</button>
 				</div>
 			</nav>
 		</div>
