@@ -72,8 +72,10 @@ const Header = () => {
 								<h1
 									style={{
 										position: 'absolute',
-										right: '355px',
-										top: '8px'
+										right: '613px',
+										// left: '0'/,
+
+										top: '10px'
 									}}
 									className='rounded-full flex items-center justify-center h-6 w-6 bg-red-500 '
 								>
@@ -87,7 +89,7 @@ const Header = () => {
 								<h1
 									style={{
 										position: 'absolute',
-										right: '256px',
+										right: '520px',
 										top: '8px'
 									}}
 									className='rounded-full flex items-center justify-center h-6 w-6 bg-red-500 '
