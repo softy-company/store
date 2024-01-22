@@ -1,0 +1,13 @@
+h5 {
+	color: white;
+}
+.header a {
+	color: white;
+	margin-left: 20px;
+	font-size: 16px;
+	font-weight: 600;
+}
+
+.header a:active {
+	color: rgb(217, 131, 131);
+}
